@@ -3,10 +3,7 @@
 namespace Nulldark\Container\Resolver;
 
 use Nulldark\Container\Exception\DependencyException;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use ReflectionException;
 use ReflectionMethod;
 
 final class ParameterResolver implements ParameterResolverInterface

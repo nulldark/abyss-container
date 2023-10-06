@@ -7,5 +7,7 @@ class ContainerDependent
 {
     public function __construct(
         public ContainerContract $impl
-    ) {}
+    )
+    {
+    }
 }

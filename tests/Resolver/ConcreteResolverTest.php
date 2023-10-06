@@ -9,6 +9,7 @@ use Nulldark\Container\Resolver\ResolverInterface;
 use Nulldark\Tests\Fixtures\SampleClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 #[CoversClass(ConcreteResolver::class)]
 class ConcreteResolverTest extends TestCase
@@ -37,10 +38,10 @@ class ConcreteResolverTest extends TestCase
      */
     public function testWithoutConstructorReturnsInstance(): void
     {
-        $object = $this->resolver->resolve(\stdClass::class, []);
+        $object = $this->resolver->resolve(stdClass::class, []);
 
         $this->assertIsObject($object);
-        $this->assertEquals(new \stdClass(), $object);
+        $this->assertEquals(new stdClass(), $object);
     }
 
     /**

@@ -11,40 +11,16 @@ use TypeError;
 
 class Container implements ContainerInterface
 {
+    /** @var ContainerInterface|null $instance */
+    private static ?ContainerInterface $instance;
     private array $bindings = [];
     private array $buildStack = [];
     private array $instances = [];
 
-    /** @var ContainerInterface|null $instance */
-    private static ?ContainerInterface $instance;
-
-    public function __construct() {
+    public function __construct()
+    {
         $this->set(self::class, $this);
         $this->bind(ContainerInterface::class, self::class);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function get(string $id): mixed
-    {
-        try {
-            return $this->make($id);
-        } catch (Exception $e) {
-            if ($this->has($id) || $e instanceof CircularDependencyException) {
-                throw $e;
-            }
-
-            throw new NotFoundException("Entry '$id' not found", $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function has(string $id): bool
-    {
-        return array_key_exists($id, $this->instances) || array_key_exists($id, $this->bindings);
     }
 
     /**
@@ -58,9 +34,26 @@ class Container implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function singleton(string $abstract, Closure|string|null $concrete = null): void
+    public function bind(string $abstract, Closure|string|null $concrete = null, bool $shared = false): void
     {
-        $this->bind($abstract, $concrete, true);
+        if ($concrete === null) {
+            $concrete = $abstract;
+        }
+
+        if (!$concrete instanceof Closure) {
+            if (!is_string($concrete)) {
+                throw new TypeError('Argument #2 ($concrete) must be of type Closure|string|null');
+            }
+
+            $concrete = function (ContainerInterface $container, array $parameters = []) use ($abstract, $concrete) {
+                if ($abstract === $concrete) {
+                    return $container->build($concrete);
+                }
+                return $container->make($concrete, $parameters);
+            };
+        }
+
+        $this->bindings[$abstract] = compact('concrete', 'shared');
     }
 
     /**
@@ -111,42 +104,6 @@ class Container implements ContainerInterface
         return $object;
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function bind(string $abstract, Closure|string|null $concrete = null, bool $shared = false): void
-    {
-        if ($concrete === null) {
-            $concrete = $abstract;
-        }
-
-        if (!$concrete instanceof Closure) {
-            if (!is_string($concrete)) {
-                throw new TypeError('Argument #2 ($concrete) must be of type Closure|string|null');
-            }
-
-            $concrete = function (ContainerInterface $container, array $parameters = []) use ($abstract, $concrete) {
-                if ($abstract === $concrete) {
-                    return $container->build($concrete);
-                }
-                return $container->make($concrete, $parameters);
-            };
-        }
-
-        $this->bindings[$abstract] = compact('concrete', 'shared');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isShared(string $abstract): bool
-    {
-        return isset($this->instances[$abstract]) || (
-            isset($this->bindings[$abstract]) && $this->bindings[$abstract]['shared'] === true
-        );
-    }
-
     /**
      * @param string|callable $abstract
      * @return mixed
@@ -156,6 +113,16 @@ class Container implements ContainerInterface
         return is_string($abstract) && isset($this->bindings[$abstract])
             ? $this->bindings[$abstract]['concrete']
             : $abstract;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isShared(string $abstract): bool
+    {
+        return isset($this->instances[$abstract]) || (
+                isset($this->bindings[$abstract]) && $this->bindings[$abstract]['shared'] === true
+            );
     }
 
     /**
@@ -181,5 +148,37 @@ class Container implements ContainerInterface
     public static function setInstance(ContainerInterface $instance = null): ?ContainerInterface
     {
         return self::$instance = $instance;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(string $id): mixed
+    {
+        try {
+            return $this->make($id);
+        } catch (Exception $e) {
+            if ($this->has($id) || $e instanceof CircularDependencyException) {
+                throw $e;
+            }
+
+            throw new NotFoundException("Entry '$id' not found", $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function has(string $id): bool
+    {
+        return array_key_exists($id, $this->instances) || array_key_exists($id, $this->bindings);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function singleton(string $abstract, Closure|string|null $concrete = null): void
+    {
+        $this->bind($abstract, $concrete, true);
     }
 }

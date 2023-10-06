@@ -14,6 +14,7 @@ use Nulldark\Tests\Fixtures\SampleClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\NotFoundExceptionInterface;
+use stdClass;
 use TypeError;
 
 #[CoversClass(Container::class)]
@@ -71,7 +72,7 @@ class ContainerTest extends TestCase
     {
         $container = new Container();
 
-        $instance = new \stdClass();
+        $instance = new stdClass();
         $resolved = $container->set('acme', $instance);
 
         $this->assertSame($instance, $resolved);
@@ -153,11 +154,11 @@ class ContainerTest extends TestCase
     public function testPrimitiveValueToConcreteResolution(): void
     {
         $container = new Container();
-        $container->bind('foo', \stdClass::class);
+        $container->bind('foo', stdClass::class);
 
         $instance = $container->make('foo');
 
-        $this->assertInstanceOf(\stdClass::class, $instance);
+        $this->assertInstanceOf(stdClass::class, $instance);
     }
 
     /**
@@ -208,7 +209,7 @@ class ContainerTest extends TestCase
     public function testIfContainerKnowsEntry()
     {
         $container = new Container();
-        $container->bind('foobar', \stdClass::class);
+        $container->bind('foobar', stdClass::class);
 
         $this->assertTrue(
             $container->has('foobar')
@@ -241,7 +242,7 @@ class ContainerTest extends TestCase
     {
         $container = new Container();
 
-        $instance1 = new \stdClass();
+        $instance1 = new stdClass();
         $container->set('foo', $instance1);
 
         $this->assertSame(

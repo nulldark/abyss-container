@@ -4,13 +4,15 @@ namespace Nulldark\Container\Resolver;
 
 use Nulldark\Container\ContainerInterface;
 use Nulldark\Container\Exception\ResolveException;
+use ReflectionClass;
 use ReflectionException;
 
 final class ConcreteResolver implements ResolverInterface
 {
     private readonly ParameterResolverInterface $parameterResolver;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->parameterResolver = new ParameterResolver($container);
     }
 
@@ -20,7 +22,7 @@ final class ConcreteResolver implements ResolverInterface
     public function resolve(string $concrete, array $parameters): object
     {
         try {
-            $reflector = new \ReflectionClass($concrete);
+            $reflector = new ReflectionClass($concrete);
         } catch (ReflectionException) {
             throw new ResolveException(
                 "Entry '$concrete' cannot be resolved: the class is not instantiable"

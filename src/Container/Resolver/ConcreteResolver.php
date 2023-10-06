@@ -7,6 +7,13 @@ use Nulldark\Container\Exception\ResolveException;
 use ReflectionClass;
 use ReflectionException;
 
+/**
+ * @author Dominik Szamburski
+ * @package Container
+ * @subpackage Resolver
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 final class ConcreteResolver implements ResolverInterface
 {
     private readonly ParameterResolverInterface $parameterResolver;

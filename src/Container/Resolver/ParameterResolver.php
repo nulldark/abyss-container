@@ -6,6 +6,13 @@ use Nulldark\Container\Exception\DependencyException;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
 
+/**
+ * @author Dominik Szamburski
+ * @package Container
+ * @subpackage Resolver
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 final class ParameterResolver implements ParameterResolverInterface
 {
     private array $stack = [];

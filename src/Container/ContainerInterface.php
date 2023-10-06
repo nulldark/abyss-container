@@ -4,6 +4,12 @@ namespace Nulldark\Container;
 
 use Closure;
 
+/**
+ * @author Dominik Szamburski
+ * @package Container
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 interface ContainerInterface extends \Psr\Container\ContainerInterface
 {
     /**

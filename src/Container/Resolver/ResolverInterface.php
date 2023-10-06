@@ -2,6 +2,16 @@
 
 namespace Nulldark\Container\Resolver;
 
+use Nulldark\Container\Exception\DependencyException;
+use Nulldark\Container\Exception\ResolveException;
+
+/**
+ * @author Dominik Szamburski
+ * @package Container
+ * @subpackage Resolver
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 interface ResolverInterface
 {
     /**

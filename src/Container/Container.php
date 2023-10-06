@@ -9,6 +9,12 @@ use Nulldark\Container\Exception\NotFoundException;
 use Nulldark\Container\Resolver\ConcreteResolver;
 use TypeError;
 
+/**
+ * @author Dominik Szamburski
+ * @package Container
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 class Container implements ContainerInterface
 {
     /** @var ContainerInterface|null $instance */

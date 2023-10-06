@@ -1,5 +1,6 @@
 {
     "name": "nulldark/container",
+    "license": "LGPL-2.1-only",
     "autoload": {
         "psr-4": {
             "Nulldark\\Container\\": "src/Container/"

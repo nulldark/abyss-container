@@ -26,6 +26,5 @@ class ClassWithCircularDependencyB
 {
     public function __construct(ClassWithCircularDependencyA $self)
     {
-
     }
 }

@@ -40,7 +40,6 @@ use TypeError;
 #[CoversClass(Container::class)]
 class ContainerTest extends TestCase
 {
-
     /**
      * @covers \Nulldark\Container\Container::setInstance
      * @covers \Nulldark\Container\Container::getInstance
@@ -201,9 +200,9 @@ class ContainerTest extends TestCase
     public function testBindFailsWithInvalidException(): void
     {
         $this->expectException(TypeError::class);
-        $container = new Container;
+        $container = new Container();
 
-        $concrete = new ContainerImplementation;
+        $concrete = new ContainerImplementation();
         $container->bind(ContainerImplementation::class, $concrete);
     }
 
@@ -270,5 +269,4 @@ class ContainerTest extends TestCase
             $container->make('foo')
         );
     }
-
 }

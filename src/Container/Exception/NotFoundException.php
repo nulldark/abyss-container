@@ -34,5 +34,4 @@ use RunTimeException;
  */
 class NotFoundException extends RunTimeException implements NotFoundExceptionInterface
 {
-
 }

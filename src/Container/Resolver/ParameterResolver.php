@@ -39,8 +39,7 @@ final class ParameterResolver implements ParameterResolverInterface
 
     public function __construct(
         private readonly ContainerInterface $container
-    )
-    {
+    ) {
     }
 
 
@@ -81,5 +80,4 @@ final class ParameterResolver implements ParameterResolverInterface
 
         return $this->stack;
     }
-
 }

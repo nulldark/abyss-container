@@ -20,13 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 namespace Nulldark\Tests\Fixtures;
 
 class SampleClass
 {
     public function __construct(public int $foo)
     {
-
     }
 }

@@ -33,5 +33,4 @@ use RuntimeException;
  */
 class ResolveException extends RuntimeException
 {
-
 }

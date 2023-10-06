@@ -5,6 +5,11 @@
             "Nulldark\\Container\\": "src/Container/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Nulldark\\Test\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Dominik Szamburski",

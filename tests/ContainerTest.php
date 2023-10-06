@@ -159,6 +159,7 @@ class ContainerTest extends TestCase
     /**
      * @covers \Nulldark\Container\Container::bind
      * @covers \Nulldark\Container\Container::has
+     * @return void
      */
     public function testIfContainerKnowsEntry()
     {
@@ -169,4 +170,40 @@ class ContainerTest extends TestCase
             $container->has('foobar')
         );
     }
+
+    /**
+     * @covers \Nulldark\Container\Container::singleton
+     * @return void
+     */
+    public function testBindingAnInstanceAsShared(): void
+    {
+        $container = new Container();
+        $container->singleton(ContainerContract::class, ContainerImplementation::class);
+
+        $instance1 = $container->make(ContainerImplementation::class);
+        $instance2 = $container->make(ContainerImplementation::class);
+
+        $this->assertEquals(
+            $instance1,
+            $instance2
+        );
+    }
+
+    /**
+     * @covers \Nulldark\Container\Container::set
+     * @return void
+     */
+    public function testSetAnInstanceAsShared(): void
+    {
+        $container = new Container();
+
+        $instance1 = new \stdClass();
+        $container->set('foo', $instance1);
+
+        $this->assertSame(
+            $instance1,
+            $container->make('foo')
+        );
+    }
+
 }

@@ -55,6 +55,14 @@ class Container implements ContainerInterface
     /**
      * @inheritDoc
      */
+    public function singleton(string $abstract, Closure|string|null $concrete = null): void
+    {
+        $this->bind($abstract, $concrete, true);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function build(string|Closure $concrete, array $parameters = []): mixed
     {
         if ($concrete instanceof Closure) {
@@ -89,9 +97,15 @@ class Container implements ContainerInterface
 
         $concrete = $this->getConcrete($abstract);
 
-        return ($concrete === $abstract || $concrete instanceof Closure)
+        $object = ($concrete === $abstract || $concrete instanceof Closure)
             ? $this->build($concrete, $parameters)
             : $this->make($abstract);
+
+        if ($this->isShared($abstract)) {
+            $this->instances[$abstract] = $object;
+        }
+
+        return $object;
     }
 
 
@@ -118,6 +132,16 @@ class Container implements ContainerInterface
         }
 
         $this->bindings[$abstract] = compact('concrete', 'shared');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isShared(string $abstract): bool
+    {
+        return isset($this->instances[$abstract]) || (
+            isset($this->bindings[$abstract]) && $this->bindings[$abstract]['shared'] === true
+        );
     }
 
     /**

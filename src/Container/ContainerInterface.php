@@ -16,6 +16,15 @@ interface ContainerInterface extends \Psr\Container\ContainerInterface
     public function set(string $abstract, mixed $instance): mixed;
 
     /**
+     * Register a shared binding in container.
+     *
+     * @param string $abstract
+     * @param Closure|string|null $concrete
+     * @return void
+     */
+    public function singleton(string $abstract, Closure|string|null $concrete = null): void;
+
+    /**
      * Resolve given abstract.
      *
      * @param string $abstract
@@ -43,4 +52,12 @@ interface ContainerInterface extends \Psr\Container\ContainerInterface
      * @return void
      */
     public function bind(string $abstract, Closure|string|null $concrete = null, bool $shared = false): void;
+
+    /**
+     * Check if given abstract is shared.
+     *
+     * @param string $abstract
+     * @return bool
+     */
+    public function isShared(string $abstract): bool;
 }

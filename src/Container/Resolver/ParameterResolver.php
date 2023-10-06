@@ -34,6 +34,8 @@ final class ParameterResolver implements ParameterResolverInterface
                 $this->stack[] = array_key_exists($parameter->getType()->getName(), $parameters)
                     ? $parameters[$parameter->getType()->getName()]
                     : $this->container->get($parameter->getType()->getName());
+
+                continue;
             }
 
             if (!array_key_exists($parameter->getName(), $parameters)) {

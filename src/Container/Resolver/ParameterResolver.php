@@ -25,6 +25,7 @@ namespace Nulldark\Container\Resolver;
 use Nulldark\Container\Exception\DependencyException;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
+use ReflectionNamedType;
 
 /**
  * @author Dominik Szamburski
@@ -53,10 +54,13 @@ final class ParameterResolver implements ParameterResolverInterface
         }
 
         foreach ($method->getParameters() as $parameter) {
-            if ($parameter->getType() !== null && !$parameter->getType()->isBuiltin()) {
-                $this->stack[] = array_key_exists($parameter->getType()->getName(), $parameters)
-                    ? $parameters[$parameter->getType()->getName()]
-                    : $this->container->get($parameter->getType()->getName());
+            /** @var ReflectionNamedType $type */
+            $type = $parameter->getType();
+
+            if ($type!== null && !$type->isBuiltin()) {
+                $this->stack[] = array_key_exists($type->getName(), $parameters)
+                    ? $parameters[$type->getName()]
+                    : $this->container->get($type->getName());
 
                 continue;
             }

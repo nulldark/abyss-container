@@ -2,6 +2,8 @@
 
 namespace Nulldark\Container;
 
+use Closure;
+
 interface ContainerInterface extends \Psr\Container\ContainerInterface
 {
     /**
@@ -12,4 +14,23 @@ interface ContainerInterface extends \Psr\Container\ContainerInterface
      * @return mixed
      */
     public function set(string $abstract, mixed $instance): mixed;
+
+    /**
+     * Resolve given abstract.
+     *
+     * @param string $abstract
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function make(string $abstract, array $parameters = []): mixed;
+
+    /**
+     * Instantiate a concrete instance.
+     *
+     * @param string|Closure $concrete
+     * @param array $parameters
+     * @return mixed
+     */
+    public function build(string|Closure $concrete, array $parameters = []): mixed;
 }

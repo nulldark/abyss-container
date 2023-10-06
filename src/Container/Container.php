@@ -15,9 +15,12 @@ class Container implements ContainerInterface
     private array $buildStack = [];
     private array $instances = [];
 
-    public function __construct()
-    {
+    /** @var ContainerInterface|null $instance */
+    private static ?ContainerInterface $instance;
 
+    public function __construct() {
+        $this->set(self::class, $this);
+        $this->bind(ContainerInterface::class, self::class);
     }
 
     /**
@@ -153,5 +156,30 @@ class Container implements ContainerInterface
         return is_string($abstract) && isset($this->bindings[$abstract])
             ? $this->bindings[$abstract]['concrete']
             : $abstract;
+    }
+
+    /**
+     * Get current container instance.
+     *
+     * @return ContainerInterface
+     */
+    public static function getInstance(): ContainerInterface
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new Container();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * Set a new instance of container.
+     *
+     * @param ContainerInterface|null $instance
+     * @return ContainerInterface|null
+     */
+    public static function setInstance(ContainerInterface $instance = null): ?ContainerInterface
+    {
+        return self::$instance = $instance;
     }
 }

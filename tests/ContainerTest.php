@@ -3,6 +3,7 @@
 namespace Nulldark\Tests;
 
 use Nulldark\Container\Container;
+use Nulldark\Container\ContainerInterface;
 use Nulldark\Container\Exception\CircularDependencyException;
 use Nulldark\Tests\Fixtures\ClassWithCircularDependencyA;
 use Nulldark\Tests\Fixtures\ContainerContract;
@@ -18,6 +19,49 @@ use TypeError;
 #[CoversClass(Container::class)]
 class ContainerTest extends TestCase
 {
+
+    /**
+     * @covers \Nulldark\Container\Container::setInstance
+     * @covers \Nulldark\Container\Container::getInstance
+     * @return void
+     */
+    public function testContainerSingleton(): void
+    {
+        $container1 = Container::setInstance(new Container());
+        $this->assertSame($container1, Container::getInstance());
+
+        Container::setInstance(null);
+        $container2 = Container::getInstance();
+
+        $this->assertNotSame($container1, $container2);
+        $this->assertInstanceOf(ContainerInterface::class, $container1);
+    }
+
+    /**
+     * @covers \Nulldark\Container\Container::setInstance
+     * return void
+     */
+    public function testSetSingletonReturnsSameInstance(): void
+    {
+        $container1 = new Container();
+        $container2 = Container::setInstance(
+            $container1
+        );
+
+        $this->assertSame($container1, $container2);
+    }
+
+    /**
+     * @covers \Nulldark\Container\Container::getInstance
+     * return void
+     */
+    public function testGetInstanceReturnsContainerInstance(): void
+    {
+        $this->assertInstanceOf(
+            ContainerInterface::class,
+            Container::getInstance()
+        );
+    }
 
     /**
      * @covers \Nulldark\Container\Container::set

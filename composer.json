@@ -1,0 +1,15 @@
+{
+    "name": "nulldark/container",
+    "autoload": {
+        "psr-4": {
+            "Nulldark\\Container\\": "src/Container/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dominik Szamburski",
+            "email": "dominikszamburski99@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -33,4 +33,14 @@ interface ContainerInterface extends \Psr\Container\ContainerInterface
      * @return mixed
      */
     public function build(string|Closure $concrete, array $parameters = []): mixed;
+
+    /**
+     * Register new binding in the container.
+     *
+     * @param string $abstract
+     * @param Closure|string|null $concrete
+     * @param bool $shared
+     * @return void
+     */
+    public function bind(string $abstract, Closure|string|null $concrete = null, bool $shared = false): void;
 }

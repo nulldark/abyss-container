@@ -7,6 +7,7 @@ use Exception;
 use Nulldark\Container\Exception\CircularDependencyException;
 use Nulldark\Container\Exception\NotFoundException;
 use Nulldark\Container\Resolver\ConcreteResolver;
+use TypeError;
 
 class Container implements ContainerInterface
 {
@@ -40,7 +41,7 @@ class Container implements ContainerInterface
      */
     public function has(string $id): bool
     {
-        return array_key_exists($id, $this->instances);
+        return array_key_exists($id, $this->instances) || array_key_exists($id, $this->bindings);
     }
 
     /**
@@ -91,6 +92,32 @@ class Container implements ContainerInterface
         return ($concrete === $abstract || $concrete instanceof Closure)
             ? $this->build($concrete, $parameters)
             : $this->make($abstract);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function bind(string $abstract, Closure|string|null $concrete = null, bool $shared = false): void
+    {
+        if ($concrete === null) {
+            $concrete = $abstract;
+        }
+
+        if (!$concrete instanceof Closure) {
+            if (!is_string($concrete)) {
+                throw new TypeError('Argument #2 ($concrete) must be of type Closure|string|null');
+            }
+
+            $concrete = function (ContainerInterface $container, array $parameters = []) use ($abstract, $concrete) {
+                if ($abstract === $concrete) {
+                    return $container->build($concrete);
+                }
+                return $container->make($concrete, $parameters);
+            };
+        }
+
+        $this->bindings[$abstract] = compact('concrete', 'shared');
     }
 
     /**

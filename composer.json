@@ -26,6 +26,7 @@
         "phpstan/phpstan": "^1.10"
     },
     "scripts": {
+        "phpstan": "phpstan --memory-limit=-1",
         "phpcs": "phpcs",
         "phpcbf": "phpcbf"
     }

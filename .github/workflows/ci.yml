@@ -29,6 +29,8 @@ jobs:
             ${{ runner.os }}-php-
       - name: Install dependencies
         run: composer install --prefer-source --no-interaction --dev
+      - name: Coding Standard
+        run: composer run phpcs
       - name: Run test suite
         run: composer run phpunit -- --coverage-clover=coverage.xml
       - name: Upload coverage reports to Codecov

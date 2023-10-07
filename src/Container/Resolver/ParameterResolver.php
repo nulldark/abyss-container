@@ -57,7 +57,7 @@ final class ParameterResolver implements ParameterResolverInterface
             /** @var ReflectionNamedType $type */
             $type = $parameter->getType();
 
-            if ($type!== null && !$type->isBuiltin()) {
+            if ($type !== null && !$type->isBuiltin()) {
                 $this->stack[] = array_key_exists($type->getName(), $parameters)
                     ? $parameters[$type->getName()]
                     : $this->container->get($type->getName());

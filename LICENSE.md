@@ -472,7 +472,7 @@ convey the exclusion of warranty; and each file should have at least the
 
     Copyright (C) 2023 Dominik Szamburski
 
-    This file is part of EntityManager
+    This file is part of nulldark\container
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

@@ -1,4 +1,7 @@
 parameters:
-    level: 4
+    level: max
+    treatPhpDocTypesAsCertain: false
+    tmpDir: .build/cache/phpstan
     paths:
         - src
+        - tests

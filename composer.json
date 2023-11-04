@@ -30,8 +30,12 @@
     },
     "scripts": {
         "dev:analyze": "vendor/bin/phpstan analyze --ansi --memory-limit=1G",
-        "phpcbf": "phpcbf",
-        "phpcs": "phpcs",
+        "dev:lint": [
+            "@dev:lint:fix",
+            "@dev:lint:style"
+        ],
+        "dev:lint:fix": "vendor/bin/phpcbf",
+        "dev:lint:style": "vendor/bin/phpcs -p --colors",
         "phpunit": "phpunit"
     },
     "config": {

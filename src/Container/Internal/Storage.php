@@ -20,30 +20,52 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container;
-
-use Nulldark\Container\Exception\NotFoundException;
-use Psr\Container\ContainerInterface as BaseContainerInterface;
+namespace Nulldark\Container\Internal;
 
 /**
- * @package Nulldark\Container
- * @version 0.1.0
+ * @internal
+ *
+ * @package Nulldark\Container\Internal
  * @license LGPL-2.1
+ * @since 0.2.0
  */
-interface ContainerInterface extends
-    BinderInterface,
-    FactoryInterface,
-    BaseContainerInterface
+final class Storage
 {
     /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @template T
-     * @param string|class-string<T> $id Entry name or a class name.
-     *
-     * @return ($id is class-string ? T : mixed)
-     *
-     * @throws NotFoundException
+     * @param array<string, object> $objects
      */
-    public function get(string $id): mixed;
+    public function __construct(
+        private array $objects = [],
+        public Registry $config = new Registry(),
+    ) {
+    }
+
+    /**
+     * @template T of object
+     *
+     * @param string $id
+     * @param class-string<T> $class
+     *
+     * @return T
+     */
+    public function get(string $id, string $class): object
+    {
+        $className = $this->config->$id;
+        $result = $this->objects[$id] ?? new $className($this);
+
+        \assert($result instanceof $class);
+
+        return $result;
+    }
+
+    /**
+     * @param string $id
+     * @param object $instance
+     *
+     * @return void
+     */
+    public function set(string $id, object $instance): void
+    {
+        $this->objects[$id] = $instance;
+    }
 }

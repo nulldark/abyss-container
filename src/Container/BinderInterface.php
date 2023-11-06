@@ -22,28 +22,47 @@
 
 namespace Nulldark\Container;
 
-use Nulldark\Container\Exception\NotFoundException;
-use Psr\Container\ContainerInterface as BaseContainerInterface;
+use InvalidArgumentException;
 
 /**
  * @package Nulldark\Container
- * @version 0.1.0
+ * @since 0.2.0
  * @license LGPL-2.1
+ *
+ * @phpstan-type TConcrete = class-string|non-empty-string|object|callable
  */
-interface ContainerInterface extends
-    BinderInterface,
-    FactoryInterface,
-    BaseContainerInterface
+interface BinderInterface
 {
     /**
-     * Finds an entry of the container by its identifier and returns it.
+     * Registers a binding in the container.
      *
-     * @template T
-     * @param string|class-string<T> $id Entry name or a class name.
+     * @param string $abstract
+     * @param TConcrete $concrete
+     * @param bool $shared
      *
-     * @return ($id is class-string ? T : mixed)
+     * @return void
      *
-     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
-    public function get(string $id): mixed;
+    public function bind(string $abstract, string|object|callable $concrete, bool $shared = false): void;
+
+    /**
+     * Registers a shared binding in the container.
+     *
+     * @param string $abstract
+     * @param TConcrete $concrete
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     */
+    public function singleton(string $abstract, mixed $concrete): void;
+
+    /**
+     * Check if given abstract is shared.
+     *
+     * @param string $abstract
+     * @return bool
+     */
+    public function isShared(string $abstract): bool;
 }

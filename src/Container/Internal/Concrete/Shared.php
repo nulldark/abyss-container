@@ -20,15 +20,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Exception;
-
-use RuntimeException;
+namespace Nulldark\Container\Internal\Concrete;
 
 /**
- * @package Nulldark\Container\Exception
+ * @internal
+ *
+ * @package Nulldark\Container\Internal\Concrete
+ * @since 0.2.0
  * @license LGPL-2.1
- * @version 0.1.0
  */
-class DependencyException extends RuntimeException
+final class Shared extends Concrete
 {
+    public function __construct(
+        public object $value
+    ) {
+    }
+
+    public function __toString(): string
+    {
+        return $this->value::class;
+    }
 }

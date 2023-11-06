@@ -25,9 +25,7 @@ namespace Nulldark\Container\Exception;
 use RuntimeException;
 
 /**
- * @author Dominik Szamburski
- * @package Container
- * @subpackage Exception
+ * @package Nulldark\Container\Exception
  * @license LGPL-2.1
  * @version 0.1.0
  */

@@ -20,30 +20,46 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container;
+namespace Nulldark\Container\Internal;
 
-use Nulldark\Container\Exception\NotFoundException;
-use Psr\Container\ContainerInterface as BaseContainerInterface;
+use Nulldark\Container\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 /**
- * @package Nulldark\Container
- * @version 0.1.0
+ * @internal
+ *
+ * @package Nulldark\Container\Internal
+ * @since 0.2.0
  * @license LGPL-2.1
  */
-interface ContainerInterface extends
-    BinderInterface,
-    FactoryInterface,
-    BaseContainerInterface
+final class Container implements ContainerInterface
 {
+    private State $state;
+    private FactoryInterface $factory;
+
+    public function __construct(Storage $storage)
+    {
+        $storage->set('container', $this);
+
+        $this->factory = $storage->get('factory', FactoryInterface::class);
+        $this->state = $storage->get('state', State::class);
+    }
+
     /**
-     * Finds an entry of the container by its identifier and returns it.
+     *
      *
      * @template T
-     * @param string|class-string<T> $id Entry name or a class name.
+     * @param string|class-string<T> $id
      *
      * @return ($id is class-string ? T : mixed)
-     *
-     * @throws NotFoundException
      */
-    public function get(string $id): mixed;
+    public function get(string $id): mixed
+    {
+        return $this->factory->make($id, []);
+    }
+
+    public function has(string $id): bool
+    {
+        return \array_key_exists($id, $this->state->bindings) || \array_key_exists($id, $this->state->instances);
+    }
 }

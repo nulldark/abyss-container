@@ -20,29 +20,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Resolver;
-
-use Nulldark\Container\Exception\DependencyException;
-use Nulldark\Container\Exception\ResolveException;
+namespace Nulldark\Container\Internal\Concrete;
 
 /**
- * @author Dominik Szamburski
- * @package Container
- * @subpackage Resolver
+ * @internal
+ *
+ * @package Nulldark\Container\Internal\Concrete
+ * @since 0.2.0
  * @license LGPL-2.1
- * @version 0.1.0
  */
-interface ResolverInterface
+final class Scalar extends Concrete
 {
-    /**
-     * Resolve the given type from the container.
-     *
-     * @param string $concrete
-     * @param array<string, object|string|int> $parameters
-     * @return object
-     *
-     * @throws ResolveException
-     * @throws DependencyException
-     */
-    public function resolve(string $concrete, array $parameters): object;
+    public function __construct(
+        public int|float|string|bool $value
+    ) {
+    }
+
+    public function __toString(): string
+    {
+        return sprintf("Value (%s) %s", \gettype($this->value), \var_export($this->value, true));
+    }
 }

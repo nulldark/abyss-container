@@ -20,15 +20,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Exception;
-
-use RuntimeException;
+namespace Nulldark\Container;
 
 /**
- * @package Nulldark\Container\Exception
+ * @package Nulldark\Container
+ * @since 0.2.0
  * @license LGPL-2.1
- * @version 0.1.0
  */
-class DependencyException extends RuntimeException
+interface FactoryInterface
 {
+    /**
+     * Create instance of requested class using binding class aliases and set of parameters provided.
+     *
+     * @template T
+     *
+     * @param class-string<T>|string $abstract
+     * @param list<mixed> $parameters
+     *
+     * @return ($abstract is class-string ? T : mixed)
+     */
+    public function make(string $abstract, array $parameters = []): mixed;
 }

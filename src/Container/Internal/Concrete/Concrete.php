@@ -20,32 +20,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Resolver;
-
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use ReflectionException;
-use ReflectionMethod;
+namespace Nulldark\Container\Internal\Concrete;
 
 /**
- * @author Dominik Szamburski
- * @package Container
- * @subpackage Resolver
+ * @internal
+ *
+ * @package Nulldark\Container\Internal\Concrete
+ * @since 0.2.0
  * @license LGPL-2.1
- * @version 0.1.0
+ *
+ * @property-read mixed $value
  */
-interface ParameterResolverInterface
+abstract class Concrete implements \Stringable
 {
-    /**
-     * Resolve parameters for given method.
-     *
-     * @param ReflectionMethod|null $method
-     * @param array $parameters
-     * @return array
-     *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
-     */
-    public function resolveParameters(ReflectionMethod $method = null, array $parameters = []): array;
 }

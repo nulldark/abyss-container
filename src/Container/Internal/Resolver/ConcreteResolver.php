@@ -20,40 +20,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Resolver;
+namespace Nulldark\Container\Internal\Resolver;
 
-use Nulldark\Container\ContainerInterface;
+use Nulldark\Container\Exception\NotFoundException;
 use Nulldark\Container\Exception\ResolveException;
-use ReflectionClass;
-use ReflectionException;
+use Nulldark\Container\Internal\Context;
+use Psr\Container\ContainerInterface;
 
 /**
- * @author Dominik Szamburski
- * @package Container
- * @subpackage Resolver
+ * @internal
+ *
+ * @package Nulldark\Container\Internal\Resolver
+ * @since 0.1.0
  * @license LGPL-2.1
- * @version 0.1.0
  */
-final class ConcreteResolver implements ResolverInterface
+final class ConcreteResolver
 {
-    private readonly ParameterResolverInterface $parameterResolver;
+    private readonly ParameterResolver $parameterResolver;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->parameterResolver = new ParameterResolver($container);
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
+        $this->parameterResolver = new ParameterResolver($this->container);
     }
 
     /**
-     * @inheritDoc
+     *
+     * @template T
+     *
+     * @param class-string<T>|string $abstract
+     * @param list<mixed> $parameters
+     *
+     * @return ($abstract is class-string ? T : mixed)
+     *
+     * @throws ResolveException
+     * @throws NotFoundException
      */
-    public function resolve(string $concrete, array $parameters): object
+    public function resolve(string $abstract, array $parameters = []): mixed
     {
         try {
-            $reflector = new ReflectionClass($concrete);
-        } catch (ReflectionException) {
-            throw new ResolveException(
-                "Entry '$concrete' cannot be resolved: the class is not instantiable"
-            );
+            if (!\class_exists($abstract)) {
+                throw new NotFoundException();
+            }
+
+            $reflector = new \ReflectionClass($abstract);
+        } catch (\ReflectionException) {
+            throw new ResolveException(sprintf(
+                "Entry `%s` cannot be resolved: the class is not instantiable.",
+                $abstract
+            ));
         }
 
         $constructor = $reflector->getConstructor();
@@ -61,6 +76,7 @@ final class ConcreteResolver implements ResolverInterface
         if ($constructor === null) {
             return $reflector->newInstanceWithoutConstructor();
         }
+
 
         $args = $this->parameterResolver->resolveParameters(
             $constructor,

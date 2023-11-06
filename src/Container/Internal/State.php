@@ -20,15 +20,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Exception;
+namespace Nulldark\Container\Internal;
 
-use RuntimeException;
+use Nulldark\Container\Internal\Concrete\Concrete;
 
 /**
- * @package Nulldark\Container\Exception
+ * @internal
+ *
+ * @package Nulldark\Container\Internal
+ * @since 0.2.0
  * @license LGPL-2.1
- * @version 0.1.0
  */
-class DependencyException extends RuntimeException
+final class State
 {
+    /**
+     * @var array<string, Concrete> $bindings
+     */
+    public array $bindings = [];
+
+    /**
+     * @var array<string, mixed> $instances
+     */
+    public array $instances = [];
 }

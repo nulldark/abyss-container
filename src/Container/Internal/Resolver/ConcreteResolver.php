@@ -59,8 +59,8 @@ final class ConcreteResolver
     public function resolve(string $abstract, array $parameters = []): mixed
     {
         try {
-            if (!\class_exists($abstract)) {
-                throw new NotFoundException();
+            if (!(\class_exists($abstract) || \interface_exists($abstract))) {
+                throw new NotFoundException("Can't resolve `{$abstract}`: undefined class or binding.");
             }
 
             $reflector = new \ReflectionClass($abstract);

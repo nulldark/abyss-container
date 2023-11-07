@@ -58,7 +58,6 @@ final class ParameterResolver
             return $this->stack;
         }
 
-
         foreach ($method->getParameters() as $parameter) {
             /** @var null|\ReflectionNamedType $type */
             $type = $parameter->getType();

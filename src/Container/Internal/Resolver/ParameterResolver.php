@@ -65,7 +65,7 @@ final class ParameterResolver
             if (\array_key_exists($parameter->getName(), $parameters)) {
                 $this->stack[] = $parameters[$parameter->getName()];
             } elseif ($type !== null && !$type->isBuiltin()) {
-                $this->stack[] = $this->container->get($parameter->getName());
+                $this->stack[] = $this->container->get($type->getName());
             } else {
                 if ($parameter->isDefaultValueAvailable() || $parameter->isOptional()) {
                     $this->stack[] = $this->getParameterDefaultValue($parameter);

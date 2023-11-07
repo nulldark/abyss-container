@@ -37,10 +37,10 @@ use Nulldark\Container\Internal\State;
  */
 class Container implements ContainerInterface
 {
-    private State $state;
-    private BinderInterface $binder;
-    private \Psr\Container\ContainerInterface $container;
-    private FactoryInterface $factory;
+    protected State $state;
+    protected BinderInterface $binder;
+    protected \Psr\Container\ContainerInterface $container;
+    protected FactoryInterface $factory;
 
     public function __construct()
     {

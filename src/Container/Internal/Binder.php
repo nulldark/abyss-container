@@ -24,6 +24,7 @@ namespace Nulldark\Container\Internal;
 
 use Nulldark\Container\BinderInterface;
 use Nulldark\Container\Concrete\Alias;
+use Nulldark\Container\Concrete\Concrete;
 use Nulldark\Container\Concrete\Scalar;
 use Nulldark\Container\Concrete\Shared;
 
@@ -51,6 +52,7 @@ final class Binder implements BinderInterface
     public function bind(string $abstract, mixed $concrete = null, bool $shared = false): void
     {
         $object = match (true) {
+            $concrete instanceof Concrete => $concrete,
             \is_string($concrete) => new Alias($concrete, $shared),
             \is_scalar($concrete) => new Scalar($concrete),
             \is_object($concrete) => new Shared($concrete),

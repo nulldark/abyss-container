@@ -20,12 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Internal\Concrete;
+namespace Nulldark\Container\Concrete;
 
 /**
- * @internal
- *
- * @package Nulldark\Container\Internal\Concrete
+ * @package Nulldark\Container\Concrete
  * @since 0.2.0
  * @license LGPL-2.1
  */

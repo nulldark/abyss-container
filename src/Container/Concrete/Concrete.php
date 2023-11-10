@@ -20,28 +20,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Internal\Concrete;
+namespace Nulldark\Container\Concrete;
 
 /**
- * @internal
- *
- * @package Nulldark\Container\Internal\Concrete
+ * @package Nulldark\Container\Concrete
  * @since 0.2.0
  * @license LGPL-2.1
+ *
+ * @property-read mixed $value
  */
-final class Alias extends Concrete
+abstract class Concrete implements \Stringable
 {
-    public function __construct(
-        public readonly string $value,
-        public readonly bool $singleton = false
-    ) {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function __toString(): string
-    {
-        return sprintf("Alias to `%s`.", $this->value);
-    }
 }

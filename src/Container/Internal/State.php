@@ -22,7 +22,7 @@
 
 namespace Nulldark\Container\Internal;
 
-use Nulldark\Container\Internal\Concrete\Concrete;
+use Nulldark\Container\Concrete\Concrete;
 
 /**
  * @internal

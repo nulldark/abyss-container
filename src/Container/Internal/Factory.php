@@ -66,9 +66,9 @@ final class Factory implements FactoryInterface
         }
 
         return match ($concrete::class) {
-            Concrete\Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
-            Concrete\Shared::class => $concrete->value,
-            Concrete\Scalar::class => $concrete->value,
+            \Nulldark\Container\Concrete\Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
+            \Nulldark\Container\Concrete\Shared::class => $concrete->value,
+            \Nulldark\Container\Concrete\Scalar::class => $concrete->value,
             default => $concrete
         };
     }
@@ -108,7 +108,7 @@ final class Factory implements FactoryInterface
     }
 
     /**
-     * @param Concrete\Alias $concrete
+     * @param \Nulldark\Container\Concrete\Alias $concrete
      * @param string $abstract
      * @param list<mixed> $parameters
      *
@@ -116,7 +116,7 @@ final class Factory implements FactoryInterface
      *
      * @throws \ReflectionException
      */
-    private function resolveAlias(Concrete\Alias $concrete, string $abstract, array $parameters): mixed
+    private function resolveAlias(\Nulldark\Container\Concrete\Alias $concrete, string $abstract, array $parameters): mixed
     {
         $instance = $concrete->value === $abstract
             ? $this->build($abstract, $parameters)

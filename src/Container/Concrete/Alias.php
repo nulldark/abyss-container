@@ -20,24 +20,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Internal\Concrete;
+namespace Nulldark\Container\Concrete;
 
 /**
- * @internal
- *
- * @package Nulldark\Container\Internal\Concrete
+ * @package Nulldark\Container\Concrete
  * @since 0.2.0
  * @license LGPL-2.1
  */
-final class Scalar extends Concrete
+final class Alias extends Concrete
 {
     public function __construct(
-        public int|float|string|bool $value
+        public readonly string $value,
+        public readonly bool $singleton = false
     ) {
     }
 
+    /**
+     * @inheritDoc
+     */
     public function __toString(): string
     {
-        return sprintf("Value (%s) %s", \gettype($this->value), \var_export($this->value, true));
+        return sprintf("Alias to `%s`.", $this->value);
     }
 }

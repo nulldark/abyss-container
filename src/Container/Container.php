@@ -22,13 +22,9 @@
 
 namespace Nulldark\Container;
 
-use Closure;
-use Nulldark\Container\Internal\Binder;
-use Nulldark\Container\Internal\Concrete\Alias;
-use Nulldark\Container\Internal\Config;
-use Nulldark\Container\Internal\Factory;
-use Nulldark\Container\Internal\Storage;
+use Nulldark\Container\Concrete\Alias;
 use Nulldark\Container\Internal\State;
+use Nulldark\Container\Internal\Storage;
 
 /**
  * @package Nulldark\Container

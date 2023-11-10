@@ -23,11 +23,9 @@
 namespace Nulldark\Container\Internal;
 
 use Nulldark\Container\BinderInterface;
-use Nulldark\Container\ContainerInterface;
-use Nulldark\Container\Internal\Concrete\Alias;
-use Nulldark\Container\Internal\Concrete\Concrete;
-use Nulldark\Container\Internal\Concrete\Scalar;
-use Nulldark\Container\Internal\Concrete\Shared;
+use Nulldark\Container\Concrete\Alias;
+use Nulldark\Container\Concrete\Scalar;
+use Nulldark\Container\Concrete\Shared;
 
 /**
  * @internal

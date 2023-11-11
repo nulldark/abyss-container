@@ -20,12 +20,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Fixtures;
+namespace Nulldark\Tests\Unit;
 
-class MethodWithoutType
+use Nulldark\Container\Container;
+use Nulldark\Container\Internal\Factory;
+use Nulldark\Tests\Unit\Fixture\SampleClass;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(Factory::class)]
+#[CoversClass(Container::class)]
+class FactoryTest extends TestCase
 {
-    public function foo($a): int
+    public function testMakeWithGivenArguments(): void
     {
-        return $a;
+        $container = new Container();
+
+        $instance1 = $container->make(SampleClass::class, ['foo' => 10]);
+        $instance2 = $container->make(SampleClass::class, ['foo' => 10]);
+
+        $this->assertEquals(SampleClass::class, $instance1::class);
+        $this->assertSame($instance1->foo, $instance2->foo);
     }
 }

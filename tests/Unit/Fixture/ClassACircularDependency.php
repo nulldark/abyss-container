@@ -20,12 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Fixtures;
+namespace Nulldark\Tests\Unit\Fixture;
 
-class TypedMethod
+class ClassACircularDependency
 {
-    public function foo(int $a): int
+    public function __construct(ClassBCircularDependency $class)
     {
-        return $a;
     }
 }

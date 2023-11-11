@@ -20,11 +20,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Fixtures;
+namespace Nulldark\Tests\Unit;
 
-class SampleClass
+use Nulldark\Container\Container;
+use Nulldark\Container\Exception\CircularDependencyException;
+use Nulldark\Tests\Unit\Fixture\ClassACircularDependency;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(Container::class)]
+class ContainerTest extends TestCase
 {
-    public function __construct(public int $foo)
+    public function testMakeIfCircularDependencyThrowsException(): void
     {
+        self::expectException(CircularDependencyException::class);
+        self::expectExceptionMessage(
+            "Circular dependency detected while trying to resolve entry " .
+            "'Nulldark\Tests\Unit\Fixture\ClassACircularDependency'"
+        );
+
+        $container = new Container();
+        $container->make(ClassACircularDependency::class);
     }
 }

@@ -63,6 +63,22 @@ final class Binder implements BinderInterface
     /**
      * @inheritDoc
      */
+    public function scalar(string $abstract, int|float|string|bool $scalar): void
+    {
+        $this->bind($abstract, new Scalar($scalar));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function alias(string $abstract, string $alias): void
+    {
+        $this->bind($abstract, new Alias($alias));
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function bind(string $abstract, mixed $concrete = null, bool $shared = false): void
     {
         $object = match (true) {

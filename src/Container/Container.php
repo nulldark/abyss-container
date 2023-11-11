@@ -88,6 +88,22 @@ class Container implements ContainerInterface
     /**
      * @inheritDoc
      */
+    public function alias(string $abstract, string $alias): void
+    {
+        $this->binder->alias($abstract, $alias);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function scalar(string $abstract, int|float|string|bool $scalar): void
+    {
+        $this->binder->scalar($abstract, $scalar);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function has(string $id): bool
     {
         return $this->container->has($id);

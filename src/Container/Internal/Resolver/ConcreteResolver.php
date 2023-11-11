@@ -26,6 +26,11 @@ use Nulldark\Container\Exception\NotFoundException;
 use Nulldark\Container\Exception\ResolveException;
 use Nulldark\Container\Internal\Context;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
+use ReflectionException;
+
+use function class_exists;
+use function interface_exists;
 
 /**
  * @internal
@@ -59,12 +64,12 @@ final class ConcreteResolver
     public function resolve(string $abstract, array $parameters = []): mixed
     {
         try {
-            if (!(\class_exists($abstract) || \interface_exists($abstract))) {
+            if (!(class_exists($abstract) || interface_exists($abstract))) {
                 throw new NotFoundException("Can't resolve `{$abstract}`: undefined class or binding.");
             }
 
-            $reflector = new \ReflectionClass($abstract);
-        } catch (\ReflectionException) {
+            $reflector = new ReflectionClass($abstract);
+        } catch (ReflectionException) {
             throw new ResolveException(sprintf(
                 "Entry `%s` cannot be resolved: the class is not instantiable.",
                 $abstract

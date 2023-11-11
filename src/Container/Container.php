@@ -26,6 +26,8 @@ use Nulldark\Container\Concrete\Alias;
 use Nulldark\Container\Internal\State;
 use Nulldark\Container\Internal\Storage;
 
+use function property_exists;
+
 /**
  * @package Nulldark\Container
  * @version 0.1.0
@@ -41,11 +43,11 @@ class Container implements ContainerInterface
     public function __construct()
     {
         $storage = new Storage([
-           'state' => new State(),
+            'state' => new State(),
         ]);
 
         foreach ($storage->config as $property => $class) {
-            if (\property_exists($this, $property)) {
+            if (property_exists($this, $property)) {
                 $this->$property = $storage->get($property, $class);
             }
         }
@@ -53,19 +55,18 @@ class Container implements ContainerInterface
         $shared = new Alias(self::class);
 
         $this->state->bindings = array_merge($this->state->bindings, [
-           \Psr\Container\ContainerInterface::class => $shared,
-           BinderInterface::class => $shared,
-           FactoryInterface::class => $shared
+            \Psr\Container\ContainerInterface::class => $shared,
+            BinderInterface::class => $shared,
+            FactoryInterface::class => $shared
         ]);
     }
-
 
     /**
      * @inheritDoc
      */
-    public function bind(string $abstract, mixed $concrete, bool $shared = false): void
+    public function get(string $id): mixed
     {
-        $this->binder->bind($abstract, $concrete);
+        return $this->container->get($id);
     }
 
     /**
@@ -79,9 +80,9 @@ class Container implements ContainerInterface
     /**
      * @inheritDoc
      */
-    public function get(string $id): mixed
+    public function bind(string $abstract, mixed $concrete, bool $shared = false): void
     {
-        return $this->container->get($id);
+        $this->binder->bind($abstract, $concrete);
     }
 
     /**

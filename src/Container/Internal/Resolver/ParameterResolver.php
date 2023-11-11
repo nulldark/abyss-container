@@ -24,6 +24,12 @@ namespace Nulldark\Container\Internal\Resolver;
 
 use Nulldark\Container\Exception\DependencyException;
 use Psr\Container\ContainerInterface;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionNamedType;
+use ReflectionParameter;
+
+use function array_key_exists;
 
 /**
  * @internal
@@ -45,24 +51,24 @@ final class ParameterResolver
     /**
      * Resolves a parameters for given method.
      *
-     * @param \ReflectionMethod|null $method
+     * @param ReflectionMethod|null $method
      * @param mixed[] $parameters
      *
      * @return list<mixed>
      *
      * @throws DependencyException
      */
-    public function resolveParameters(\ReflectionMethod $method = null, array $parameters = []): array
+    public function resolveParameters(ReflectionMethod $method = null, array $parameters = []): array
     {
         if ($method === null) {
             return $this->stack;
         }
 
         foreach ($method->getParameters() as $parameter) {
-            /** @var null|\ReflectionNamedType $type */
+            /** @var null|ReflectionNamedType $type */
             $type = $parameter->getType();
 
-            if (\array_key_exists($parameter->getName(), $parameters)) {
+            if (array_key_exists($parameter->getName(), $parameters)) {
                 $this->stack[] = $parameters[$parameter->getName()];
             } elseif ($type !== null && !$type->isBuiltin()) {
                 $this->stack[] = $this->container->get($type->getName());
@@ -82,11 +88,11 @@ final class ParameterResolver
         return $this->stack;
     }
 
-    private function getParameterDefaultValue(\ReflectionParameter $parameter): mixed
+    private function getParameterDefaultValue(ReflectionParameter $parameter): mixed
     {
         try {
             return $parameter->getDefaultValue();
-        } catch (\ReflectionException) {
+        } catch (ReflectionException) {
             throw new DependencyException(sprintf(
                 "The parameter `$%s` has no type defined or guessable. It has a default value," .
                 "It has a default value, but the default value can't be read through Reflection",

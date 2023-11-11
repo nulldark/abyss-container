@@ -59,6 +59,30 @@ interface BinderInterface
     public function singleton(string $abstract, mixed $concrete): void;
 
     /**
+     * Registers a scalar binding in the container.
+     *
+     * @param string $abstract
+     * @param int|float|string|bool $scalar
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     */
+    public function scalar(string $abstract, int|float|string|bool $scalar): void;
+
+    /**
+     * Registers a alias binding in the container.
+     *
+     * @param string $abstract
+     * @param string $alias
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     */
+    public function alias(string $abstract, string $alias): void;
+
+    /**
      * Check if given abstract is shared.
      *
      * @param string $abstract

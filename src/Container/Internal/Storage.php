@@ -22,6 +22,8 @@
 
 namespace Nulldark\Container\Internal;
 
+use function assert;
+
 /**
  * @internal
  *
@@ -53,7 +55,7 @@ final class Storage
         $className = $this->config->$id;
         $result = $this->objects[$id] ?? new $className($this);
 
-        \assert($result instanceof $class);
+        assert($result instanceof $class);
 
         return $result;
     }

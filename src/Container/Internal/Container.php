@@ -25,6 +25,8 @@ namespace Nulldark\Container\Internal;
 use Nulldark\Container\FactoryInterface;
 use Psr\Container\ContainerInterface;
 
+use function array_key_exists;
+
 /**
  * @internal
  *
@@ -60,6 +62,6 @@ final class Container implements ContainerInterface
 
     public function has(string $id): bool
     {
-        return \array_key_exists($id, $this->state->bindings) || \array_key_exists($id, $this->state->instances);
+        return array_key_exists($id, $this->state->bindings) || array_key_exists($id, $this->state->instances);
     }
 }

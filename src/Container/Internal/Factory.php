@@ -22,10 +22,18 @@
 
 namespace Nulldark\Container\Internal;
 
+use Nulldark\Container\Concrete\Alias;
+use Nulldark\Container\Concrete\Scalar;
+use Nulldark\Container\Concrete\Shared;
 use Nulldark\Container\Exception\CircularDependencyException;
 use Nulldark\Container\Exception\NotFoundException;
 use Nulldark\Container\FactoryInterface;
 use Nulldark\Container\Internal\Resolver\ConcreteResolver;
+
+use function array_key_exists;
+use function class_exists;
+use function interface_exists;
+use function sprintf;
 
 /**
  * @internal
@@ -55,7 +63,7 @@ final class Factory implements FactoryInterface
      */
     public function make(string $abstract, array $parameters = []): mixed
     {
-        if (\array_key_exists($abstract, $this->state->instances)) {
+        if (array_key_exists($abstract, $this->state->instances)) {
             return $this->state->instances[$abstract];
         }
 
@@ -66,9 +74,9 @@ final class Factory implements FactoryInterface
         }
 
         return match ($concrete::class) {
-            \Nulldark\Container\Concrete\Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
-            \Nulldark\Container\Concrete\Shared::class => $concrete->value,
-            \Nulldark\Container\Concrete\Scalar::class => $concrete->value,
+            Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
+            Shared::class => $concrete->value,
+            Scalar::class => $concrete->value,
             default => $concrete
         };
     }
@@ -85,8 +93,8 @@ final class Factory implements FactoryInterface
      */
     public function build(string $abstract, array $parameters = []): mixed
     {
-        if (!(\class_exists($abstract) || \interface_exists($abstract))) {
-            throw new NotFoundException(\sprintf(
+        if (!(class_exists($abstract) || interface_exists($abstract))) {
+            throw new NotFoundException(sprintf(
                 "Can't resolve: undefined class`%s`.",
                 $abstract
             ));
@@ -108,15 +116,13 @@ final class Factory implements FactoryInterface
     }
 
     /**
-     * @param \Nulldark\Container\Concrete\Alias $concrete
+     * @param Alias $concrete
      * @param string $abstract
      * @param list<mixed> $parameters
      *
      * @return mixed
-     *
-     * @throws \ReflectionException
      */
-    private function resolveAlias(\Nulldark\Container\Concrete\Alias $concrete, string $abstract, array $parameters): mixed
+    private function resolveAlias(Alias $concrete, string $abstract, array $parameters): mixed
     {
         $instance = $concrete->value === $abstract
             ? $this->build($abstract, $parameters)

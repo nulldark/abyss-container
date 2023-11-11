@@ -22,6 +22,8 @@
 
 namespace Nulldark\Container\Concrete;
 
+use Stringable;
+
 /**
  * @package Nulldark\Container\Concrete
  * @since 0.2.0
@@ -29,6 +31,6 @@ namespace Nulldark\Container\Concrete;
  *
  * @property-read mixed $value
  */
-abstract class Concrete implements \Stringable
+abstract class Concrete implements Stringable
 {
 }

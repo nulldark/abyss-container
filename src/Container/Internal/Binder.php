@@ -22,11 +22,17 @@
 
 namespace Nulldark\Container\Internal;
 
+use InvalidArgumentException;
 use Nulldark\Container\BinderInterface;
 use Nulldark\Container\Concrete\Alias;
 use Nulldark\Container\Concrete\Concrete;
 use Nulldark\Container\Concrete\Scalar;
 use Nulldark\Container\Concrete\Shared;
+
+use function array_key_exists;
+use function is_object;
+use function is_scalar;
+use function is_string;
 
 /**
  * @internal
@@ -49,22 +55,6 @@ final class Binder implements BinderInterface
     /**
      * @inheritDoc
      */
-    public function bind(string $abstract, mixed $concrete = null, bool $shared = false): void
-    {
-        $object = match (true) {
-            $concrete instanceof Concrete => $concrete,
-            \is_string($concrete) => new Alias($concrete, $shared),
-            \is_scalar($concrete) => new Scalar($concrete),
-            \is_object($concrete) => new Shared($concrete),
-            default => throw new \InvalidArgumentException("Unknown `concrete` type")
-        };
-
-        $this->state->bindings[$abstract] = $object;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function singleton(string $abstract, mixed $concrete = null): void
     {
         $this->bind($abstract, $concrete, true);
@@ -73,8 +63,24 @@ final class Binder implements BinderInterface
     /**
      * @inheritDoc
      */
+    public function bind(string $abstract, mixed $concrete = null, bool $shared = false): void
+    {
+        $object = match (true) {
+            $concrete instanceof Concrete => $concrete,
+            is_string($concrete) => new Alias($concrete, $shared),
+            is_scalar($concrete) => new Scalar($concrete),
+            is_object($concrete) => new Shared($concrete),
+            default => throw new InvalidArgumentException("Unknown `concrete` type")
+        };
+
+        $this->state->bindings[$abstract] = $object;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isShared(string $abstract): bool
     {
-        return \array_key_exists($abstract, $this->state->instances);
+        return array_key_exists($abstract, $this->state->instances);
     }
 }

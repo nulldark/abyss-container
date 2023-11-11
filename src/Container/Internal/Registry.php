@@ -22,9 +22,11 @@
 
 namespace Nulldark\Container\Internal;
 
+use IteratorAggregate;
 use Nulldark\Container\BinderInterface;
 use Nulldark\Container\FactoryInterface;
 use Psr\Container\ContainerInterface;
+use Traversable;
 
 /**
  * @internal
@@ -33,13 +35,13 @@ use Psr\Container\ContainerInterface;
  * @since 0.2.0
  * @license LGPL-2.1
  *
- * @implements \IteratorAggregate<
+ * @implements IteratorAggregate<
  *     non-empty-string,
  *     class-string<State>|class-string<ContainerInterface>|class-string<FactoryInterface>|class-string<BinderInterface>
  * >
  *
  */
-final class Registry implements \IteratorAggregate
+final class Registry implements IteratorAggregate
 {
     /**
      * @param class-string<State> $state
@@ -55,7 +57,7 @@ final class Registry implements \IteratorAggregate
     ) {
     }
 
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
         yield 'state' => $this->state;
         yield 'factory' => $this->factory;

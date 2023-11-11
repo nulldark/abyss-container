@@ -22,6 +22,9 @@
 
 namespace Nulldark\Container\Concrete;
 
+use function gettype;
+use function var_export;
+
 /**
  * @package Nulldark\Container\Concrete
  * @since 0.2.0
@@ -36,6 +39,6 @@ final class Scalar extends Concrete
 
     public function __toString(): string
     {
-        return sprintf("Value (%s) %s", \gettype($this->value), \var_export($this->value, true));
+        return sprintf("Value (%s) %s", gettype($this->value), var_export($this->value, true));
     }
 }

@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Internal\Resolver;
+namespace Nulldark\Container\Resolver;
 
 use Nulldark\Container\Exception\DependencyException;
 use Psr\Container\ContainerInterface;
@@ -41,11 +41,12 @@ use function array_key_exists;
 final class ParameterResolver
 {
     /** @var list<mixed> $stack */
-    private array $stack = [];
+    private array $stack;
 
     public function __construct(
         private readonly ContainerInterface $container
     ) {
+        $this->stack = [];
     }
 
     /**

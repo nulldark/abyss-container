@@ -22,24 +22,41 @@
 
 namespace Nulldark\Tests\Unit;
 
+use Nulldark\Container\Concrete\Scalar;
 use Nulldark\Container\Container;
-use Nulldark\Container\Internal\Factory;
-use Nulldark\Tests\Unit\Fixture\SampleClass;
+use Nulldark\Tests\Unit\Fixture\ContainerImplementation;
+use Nulldark\Tests\Unit\Fixture\ContainerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
-#[CoversClass(Factory::class)]
 #[CoversClass(Container::class)]
-class FactoryTest extends TestCase
+class ContainerBindTest extends TestCase
 {
-    public function testMakeWithGivenArguments(): void
+    public function testContainerCanBindAnyValue(): void
     {
         $container = new Container();
+        $container->bind('foo', new Scalar('foo'));
 
-        $instance1 = $container->make(SampleClass::class, ['foo' => 10]);
-        $instance2 = $container->make(SampleClass::class, ['foo' => 10]);
+        self::assertEquals('foo', $container->make('foo'));
+    }
 
-        $this->assertEquals(SampleClass::class, $instance1::class);
-        $this->assertSame($instance1->foo, $instance2->foo);
+    public function testPrimitiveValueToConcreteResolution(): void
+    {
+        $container = new Container();
+        $container->bind('foo', stdClass::class);
+
+        self::assertInstanceOf(stdClass::class, $container->make('foo'));
+    }
+
+    public function testBindingAnInstanceAsShared(): void
+    {
+        $container = new Container();
+        $container->singleton(ContainerInterface::class, ContainerImplementation::class);
+
+        $instance1 = $container->make(ContainerInterface::class);
+        $instance2 = $container->make(ContainerInterface::class);
+
+        self::assertSame($instance1, $instance2);
     }
 }

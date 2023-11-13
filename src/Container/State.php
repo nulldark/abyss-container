@@ -20,13 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Internal;
+namespace Nulldark\Container;
 
 use Nulldark\Container\Concrete\Concrete;
 
 /**
- * @internal
- *
  * @package Nulldark\Container\Internal
  * @since 0.2.0
  * @license LGPL-2.1
@@ -34,12 +32,23 @@ use Nulldark\Container\Concrete\Concrete;
 final class State
 {
     /**
+     * The container's bindings.
+     *
      * @var array<string, Concrete> $bindings
      */
     public array $bindings = [];
 
     /**
+     * The container's shared instances.
+     *
      * @var array<string, mixed> $instances
      */
     public array $instances = [];
+
+    /**
+     * The stack of concretions currently being built.
+     *
+     * @var array<string, bool> $buildStack
+     */
+    public array $buildStack = [];
 }

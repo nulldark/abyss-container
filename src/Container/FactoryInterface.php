@@ -22,6 +22,9 @@
 
 namespace Nulldark\Container;
 
+use Nulldark\Container\Exception\CircularDependencyException;
+use Nulldark\Container\Exception\NotFoundException;
+
 /**
  * @package Nulldark\Container
  * @since 0.2.0
@@ -35,9 +38,12 @@ interface FactoryInterface
      * @template T
      *
      * @param class-string<T>|string $abstract
-     * @param list<mixed> $parameters
+     * @param mixed[] $parameters
      *
      * @return ($abstract is class-string ? T : mixed)
+     *
+     * @throws CircularDependencyException Error while resolving the entry.
+     * @throws NotFoundException           No entry found for the given name.
      */
     public function make(string $abstract, array $parameters = []): mixed;
 }

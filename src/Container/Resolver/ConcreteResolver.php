@@ -20,11 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Internal\Resolver;
+namespace Nulldark\Container\Resolver;
 
 use Nulldark\Container\Exception\NotFoundException;
 use Nulldark\Container\Exception\ResolveException;
-use Nulldark\Container\Internal\Context;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -39,12 +38,12 @@ use function interface_exists;
  * @since 0.1.0
  * @license LGPL-2.1
  */
-final class ConcreteResolver
+final readonly class ConcreteResolver
 {
-    private readonly ParameterResolver $parameterResolver;
+    private ParameterResolver $parameterResolver;
 
     public function __construct(
-        private readonly ContainerInterface $container
+        private ContainerInterface $container
     ) {
         $this->parameterResolver = new ParameterResolver($this->container);
     }

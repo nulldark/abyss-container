@@ -29,7 +29,6 @@ namespace Nulldark\Container\Concrete;
  */
 final class Factory extends Concrete
 {
-
     public readonly \Closure $factory;
     public readonly bool $shared;
 

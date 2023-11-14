@@ -26,6 +26,7 @@ use Exception;
 use InvalidArgumentException;
 use Nulldark\Container\Concrete\Alias;
 use Nulldark\Container\Concrete\Concrete;
+use Nulldark\Container\Concrete\Factory;
 use Nulldark\Container\Concrete\Scalar;
 use Nulldark\Container\Concrete\Shared;
 use Nulldark\Container\Exception\CircularDependencyException;
@@ -85,6 +86,14 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
      */
     public function make(string $abstract, array $parameters = []): mixed
     {
+        if (isset($this->state->buildStack[$abstract])) {
+            throw new CircularDependencyException(
+                "Circular dependency detected while trying to resolve entry '{$abstract}'"
+            );
+        }
+
+        $this->state->buildStack[$abstract] = true;
+
         if (array_key_exists($abstract, $this->state->instances)) {
             return $this->state->instances[$abstract];
         }
@@ -97,6 +106,7 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
 
         return match ($concrete::class) {
             Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
+            Factory::class => $this->call($concrete->factory, $parameters),
             Shared::class => $concrete->value,
             Scalar::class => $concrete->value,
             default => $concrete
@@ -124,14 +134,6 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
             ));
         }
 
-        if (isset($this->state->buildStack[$abstract])) {
-            throw new CircularDependencyException(
-                "Circular dependency detected while trying to resolve entry '{$abstract}'"
-            );
-        }
-
-        $this->state->buildStack[$abstract] = true;
-
         try {
             return (new ConcreteResolver($this))->resolve($abstract, $parameters);
         } finally {
@@ -154,7 +156,7 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
             ? $this->build($abstract, $parameters)
             : $this->make($concrete->value, $parameters);
 
-        if ($concrete->singleton) {
+        if ($concrete->shared) {
             $this->state->instances[$abstract] = $instance;
         }
 
@@ -184,6 +186,7 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
     {
         $object = match (true) {
             $concrete instanceof Concrete => $concrete,
+            $concrete instanceof \Closure => new Factory($concrete, $shared),
             is_string($concrete) => new Alias($concrete, $shared),
             is_scalar($concrete) => new Scalar($concrete),
             is_object($concrete) => new Shared($concrete),
@@ -232,6 +235,6 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
      */
     public function getInvoker(): InvokerInterface
     {
-        return new \Nulldark\Container\Invoker($this);
+        return new Invoker($this);
     }
 }

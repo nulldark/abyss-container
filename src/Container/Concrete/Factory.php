@@ -24,15 +24,18 @@ namespace Nulldark\Container\Concrete;
 
 /**
  * @package Nulldark\Container\Concrete
- * @since 0.2.0
+ * @since 0.4.0
  * @license LGPL-2.1
  */
-final class Alias extends Concrete
+final class Factory extends Concrete
 {
-    public function __construct(
-        public readonly string $value,
-        public readonly bool $shared = false
-    ) {
+    public readonly \Closure $factory;
+    public readonly bool $shared;
+
+    public function __construct(callable $callable, bool $shared = false)
+    {
+        $this->factory = $callable(...);
+        $this->shared = $shared;
     }
 
     /**
@@ -40,6 +43,6 @@ final class Alias extends Concrete
      */
     public function __toString(): string
     {
-        return sprintf("Alias to `%s`.", $this->value);
+        return "Factory from function();";
     }
 }

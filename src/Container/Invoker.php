@@ -30,12 +30,12 @@ use Nulldark\Container\Resolver\ParameterResolver;
  * @since 0.4.0
  * @license LGPL-2.1
  */
-final readonly class Invoker implements InvokerInterface
+final class Invoker implements InvokerInterface
 {
     private ParameterResolver $resolver;
 
     public function __construct(
-        private ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
         $this->resolver = new ParameterResolver($this->container);
     }

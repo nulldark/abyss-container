@@ -38,12 +38,12 @@ use function interface_exists;
  * @since 0.1.0
  * @license LGPL-2.1
  */
-final readonly class ConcreteResolver
+final class ConcreteResolver
 {
     private ParameterResolver $parameterResolver;
 
     public function __construct(
-        private ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
         $this->parameterResolver = new ParameterResolver($this->container);
     }

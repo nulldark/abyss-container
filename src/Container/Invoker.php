@@ -47,7 +47,6 @@ final readonly class Invoker implements InvokerInterface
     public function call(callable|string|array $callback, array $parameters = []): mixed
     {
         if (\is_array($callback)) {
-
             // if method is not set, set default one.
             if (!isset($callback[1])) {
                 $callback[1] = '__invoke';

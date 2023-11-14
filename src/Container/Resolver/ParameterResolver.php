@@ -23,9 +23,11 @@
 namespace Nulldark\Container\Resolver;
 
 use Nulldark\Container\Exception\DependencyException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
-use ReflectionMethod;
+use ReflectionFunctionAbstract;
 use ReflectionNamedType;
 use ReflectionParameter;
 
@@ -52,14 +54,15 @@ final class ParameterResolver
     /**
      * Resolves a parameters for given method.
      *
-     * @param ReflectionMethod|null $method
+     * @param ReflectionFunctionAbstract|null $method
      * @param mixed[] $parameters
      *
      * @return list<mixed>
      *
-     * @throws DependencyException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function resolveParameters(ReflectionMethod $method = null, array $parameters = []): array
+    public function resolveParameters(\ReflectionFunctionAbstract $method = null, array $parameters = []): array
     {
         if ($method === null) {
             return $this->stack;

@@ -39,7 +39,7 @@ use function array_key_exists;
  * @version 0.1.0
  * @license LGPL-2.1
  */
-class Container implements ContainerInterface, FactoryInterface
+class Container implements ContainerInterface, FactoryInterface, InvokerInterface
 {
     protected State $state;
 
@@ -51,7 +51,8 @@ class Container implements ContainerInterface, FactoryInterface
 
         $this->state->bindings = array_merge($this->state->bindings, [
             ContainerInterface::class => $shared,
-            FactoryInterface::class => $shared
+            FactoryInterface::class => $shared,
+            InvokerInterface::class => $shared
         ]);
     }
 
@@ -214,5 +215,23 @@ class Container implements ContainerInterface, FactoryInterface
     public function isShared(string $abstract): bool
     {
         return array_key_exists($abstract, $this->state->instances);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function call(callable|string|array $callback, array $parameters = []): mixed
+    {
+        return $this->getInvoker()->call($callback, $parameters);
+    }
+
+    /**
+     * Gets a new Invoker instance.
+     *
+     * @return InvokerInterface
+     */
+    public function getInvoker(): InvokerInterface
+    {
+        return new \Nulldark\Container\Invoker($this);
     }
 }

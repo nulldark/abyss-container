@@ -104,13 +104,17 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
             return $this->build($abstract, $parameters);
         }
 
-        return match ($concrete::class) {
-            Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
-            Factory::class => $this->call($concrete->factory, $parameters),
-            Shared::class => $concrete->value,
-            Scalar::class => $concrete->value,
-            default => $concrete
-        };
+        try {
+            return match ($concrete::class) {
+                Alias::class => $this->resolveAlias($concrete, $abstract, $parameters),
+                Factory::class => $this->call($concrete->factory, $parameters),
+                Shared::class => $concrete->value,
+                Scalar::class => $concrete->value,
+                default => $concrete
+            };
+        } finally {
+            \array_pop($this->state->buildStack);
+        }
     }
 
     /**

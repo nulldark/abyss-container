@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,13 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container;
+namespace Abyss\Container;
 
-use Nulldark\Container\Exception\ContainerException;
-use Nulldark\Container\Resolver\ParameterResolver;
+use Abyss\Container\Exception\ContainerException;
+use Abyss\Container\Resolver\ParameterResolver;
 
 /**
- * @package Nulldark\Container
+ * @package Abyss\Container
  * @since 0.4.0
  * @license LGPL-2.1
  */

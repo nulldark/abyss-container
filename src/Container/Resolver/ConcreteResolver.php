@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Resolver;
+namespace Abyss\Container\Resolver;
 
-use Nulldark\Container\Exception\NotFoundException;
-use Nulldark\Container\Exception\ResolveException;
+use Abyss\Container\Exception\NotFoundException;
+use Abyss\Container\Exception\ResolveException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -34,7 +34,7 @@ use function interface_exists;
 /**
  * @internal
  *
- * @package Nulldark\Container\Internal\Resolver
+ * @package Abyss\Container\Internal\Resolver
  * @since 0.1.0
  * @license LGPL-2.1
  */

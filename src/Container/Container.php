@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,23 +20,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container;
+namespace Abyss\Container;
 
 use Exception;
 use InvalidArgumentException;
-use Nulldark\Container\Concrete\Alias;
-use Nulldark\Container\Concrete\Concrete;
-use Nulldark\Container\Concrete\Factory;
-use Nulldark\Container\Concrete\Scalar;
-use Nulldark\Container\Concrete\Shared;
-use Nulldark\Container\Exception\CircularDependencyException;
-use Nulldark\Container\Exception\NotFoundException;
-use Nulldark\Container\Resolver\ConcreteResolver;
+use Abyss\Container\Concrete\Alias;
+use Abyss\Container\Concrete\Concrete;
+use Abyss\Container\Concrete\Factory;
+use Abyss\Container\Concrete\Scalar;
+use Abyss\Container\Concrete\Shared;
+use Abyss\Container\Exception\CircularDependencyException;
+use Abyss\Container\Exception\NotFoundException;
+use Abyss\Container\Resolver\ConcreteResolver;
 
 use function array_key_exists;
 
 /**
- * @package Nulldark\Container
+ * @package Abyss\Container
  * @version 0.1.0
  * @license LGPL-2.1
  */

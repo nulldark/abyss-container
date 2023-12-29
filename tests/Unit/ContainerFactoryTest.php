@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,11 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Unit;
+namespace Abyss\Tests\Unit;
 
-use Nulldark\Container\Container;
-use Nulldark\Container\Internal\Factory;
-use Nulldark\Tests\Unit\Fixture\SampleClass;
+use Abyss\Container\Container;
+use Abyss\Container\Internal\Factory;
+use Abyss\Tests\Unit\Fixture\SampleClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

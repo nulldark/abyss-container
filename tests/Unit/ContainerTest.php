@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,11 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Unit;
+namespace Abyss\Tests\Unit;
 
-use Nulldark\Container\Container;
-use Nulldark\Container\Exception\CircularDependencyException;
-use Nulldark\Tests\Unit\Fixture\ClassACircularDependency;
+use Abyss\Container\Container;
+use Abyss\Container\Exception\CircularDependencyException;
+use Abyss\Tests\Unit\Fixture\ClassACircularDependency;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class ContainerTest extends TestCase
         self::expectException(CircularDependencyException::class);
         self::expectExceptionMessage(
             "Circular dependency detected while trying to resolve entry " .
-            "'Nulldark\Tests\Unit\Fixture\ClassACircularDependency'"
+            "'Abyss\Tests\Unit\Fixture\ClassACircularDependency'"
         );
 
         $container = new Container();

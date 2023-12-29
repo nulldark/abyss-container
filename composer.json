@@ -1,5 +1,5 @@
 {
-    "name": "nulldark/container",
+    "name": "abyss/container",
     "description": "Dependency Injection, Service Container",
     "license": "LGPL-2.1-only",
     "authors": [
@@ -20,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Nulldark\\Container\\": "src/Container/"
+            "Abyss\\Container\\": "src/Container/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Nulldark\\Tests\\": "tests/"
+            "Abyss\\Tests\\": "tests/"
         }
     },
     "scripts": {

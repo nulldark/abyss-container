@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,12 +20,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Exception;
+namespace Abyss\Container\Exception;
 
 use RuntimeException;
 
 /**
- * @package Nulldark\Container\Exception
+ * @package Abyss\Container\Exception
  * @license LGPL-2.1
  * @version 0.1.0
  */

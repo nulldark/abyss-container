@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark\container
+ * This file is part of abyss\container
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,13 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Container\Concrete;
+namespace Abyss\Container\Concrete;
 
 use function gettype;
 use function var_export;
 
 /**
- * @package Nulldark\Container\Concrete
+ * @package Abyss\Container\Concrete
  * @since 0.2.0
  * @license LGPL-2.1
  */

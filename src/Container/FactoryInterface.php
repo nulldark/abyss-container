@@ -33,17 +33,32 @@ use Abyss\Container\Exception\NotFoundException;
 interface FactoryInterface
 {
     /**
+     * Returns an entry of the container by its name.
+     *
+     * @template T of object
+     *
+     * @param string|class-string<T> $id
+     *  $id Entry name or a class name
+     *
+     * @return ($id is class-string ? T : mixed)
+     *  The retrieved service.
+     *
+     * @throws \Abyss\Container\Exception\CircularDependencyException
+     * @throws \Abyss\Container\Exception\NotFoundException
+     */
+
+    /**
      * Create instance of requested class using binding class aliases and set of parameters provided.
      *
-     * @template T
+     * @template T of object
      *
-     * @param class-string<T>|string $abstract
+     * @param string|class-string<T> $abstract
      * @param mixed[] $parameters
      *
      * @return ($abstract is class-string ? T : mixed)
      *
-     * @throws CircularDependencyException Error while resolving the entry.
-     * @throws NotFoundException           No entry found for the given name.
+     * @throws \Abyss\Container\Exception\CircularDependencyException
+     * @throws \Abyss\Container\Exception\NotFoundException
      */
     public function make(string $abstract, array $parameters = []): mixed;
 }

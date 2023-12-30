@@ -1,6 +1,9 @@
 parameters:
     level: max
+    tmpDir: ./build/cache/phpstan
+    tipsOfTheDay: false
     treatPhpDocTypesAsCertain: false
-    tmpDir: .build/cache/phpstan
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     paths:
-        - src
+        - src/

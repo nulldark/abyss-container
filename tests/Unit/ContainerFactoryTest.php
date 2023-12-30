@@ -23,12 +23,10 @@
 namespace Abyss\Tests\Unit;
 
 use Abyss\Container\Container;
-use Abyss\Container\Internal\Factory;
 use Abyss\Tests\Unit\Fixture\SampleClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Factory::class)]
 #[CoversClass(Container::class)]
 class ContainerFactoryTest extends TestCase
 {
@@ -39,7 +37,7 @@ class ContainerFactoryTest extends TestCase
         $instance1 = $container->make(SampleClass::class, ['foo' => 10]);
         $instance2 = $container->make(SampleClass::class, ['foo' => 10]);
 
-        $this->assertEquals(SampleClass::class, $instance1::class);
-        $this->assertSame($instance1->foo, $instance2->foo);
+        self::assertEquals(SampleClass::class, $instance1::class);
+        self::assertSame($instance1->foo, $instance2->foo);
     }
 }

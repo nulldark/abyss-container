@@ -40,6 +40,6 @@ final class Alias extends Concrete
      */
     public function __toString(): string
     {
-        return sprintf("Alias to `%s`.", $this->value);
+        return \sprintf("Alias to `%s`.", $this->value);
     }
 }

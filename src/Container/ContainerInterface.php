@@ -36,14 +36,18 @@ use Psr\Container\ContainerInterface as BaseContainerInterface;
 interface ContainerInterface extends BaseContainerInterface
 {
     /**
-     * Finds an entry of the container by its identifier and returns it.
+     * Returns an entry of the container by its name.
      *
-     * @template T
-     * @param string|class-string<T> $id Entry name or a class name.
+     * @template T of object
+     *
+     * @param string|class-string<T> $id
+     *  $id Entry name or a class name
      *
      * @return ($id is class-string ? T : mixed)
+     *  The retrieved service.
      *
-     * @throws NotFoundException
+     * @throws \Abyss\Container\Exception\CircularDependencyException
+     * @throws \Abyss\Container\Exception\NotFoundException
      */
     public function get(string $id): mixed;
 
@@ -70,7 +74,7 @@ interface ContainerInterface extends BaseContainerInterface
      *
      * @throws InvalidArgumentException
      */
-    public function singleton(string $abstract, mixed $concrete): void;
+    public function singleton(string $abstract, string|object|callable $concrete): void;
 
     /**
      * Registers a scalar binding in the container.

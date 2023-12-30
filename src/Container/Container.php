@@ -58,20 +58,12 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
     }
 
     /**
-     * Returns an entry of the container by its name.
-     *
-     * @template T
-     * @param string|class-string<T> $id $id Entry name or a class name
-     *
-     * @return ($id is class-string ? T : mixed)
-     *
-     * @throws CircularDependencyException
-     * @throws NotFoundException
+     * @inheritDoc
      */
     public function get(string $id): mixed
     {
         try {
-            return $this->make($id);
+            return $this->make($id, []);
         } catch (Exception $e) {
             if ($this->has($id) || $e instanceof CircularDependencyException) {
                 throw $e;
@@ -123,7 +115,7 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
      * @template T
      *
      * @param class-string<T>|string $abstract
-     * @param list<mixed> $parameters Parameters to construct new class.
+     * @param mixed[] $parameters Parameters to construct new class.
      *
      * @return ($abstract is class-string ? T : mixed)
      *
@@ -148,7 +140,7 @@ class Container implements ContainerInterface, FactoryInterface, InvokerInterfac
     /**
      * @param Alias $concrete
      * @param string $abstract
-     * @param list<mixed> $parameters
+     * @param mixed[] $parameters
      *
      * @return mixed
      *

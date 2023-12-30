@@ -53,7 +53,7 @@ final class ConcreteResolver
      * @template T
      *
      * @param class-string<T>|string $abstract
-     * @param list<mixed> $parameters
+     * @param mixed[] $parameters
      *
      * @return ($abstract is class-string ? T : mixed)
      *

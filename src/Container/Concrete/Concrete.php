@@ -29,7 +29,6 @@ use Stringable;
  * @since 0.2.0
  * @license LGPL-2.1
  *
- * @property-read mixed $value
  */
 abstract class Concrete implements Stringable
 {

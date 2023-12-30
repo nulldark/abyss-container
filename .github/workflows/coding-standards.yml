@@ -1,0 +1,44 @@
+name: "Coding Standards"
+
+on:
+  pull_request:
+    branches:
+      - "*.*"
+    paths:
+      - composer.*
+      - phpcs.xml.dist
+      - src/**
+      - tests/**
+  push:
+    branches:
+      - "*.x"
+    paths:
+      - composer.*
+      - phpcs.xml.dist
+      - src/**
+      - tests/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coding-standards:
+    name: Coding Standards
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: '8.2'
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+
+      - name: "Check coding standards"
+        run: "composer run lint:style -- -q --no-colors --report=checkstyle"

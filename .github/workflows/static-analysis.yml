@@ -1,0 +1,48 @@
+name: "Static Analysis"
+
+on:
+  pull_request:
+    branches:
+      - "*.*"
+    paths:
+      - composer.*
+      - src/**
+      - phpstan*
+      - psalm*
+  push:
+    branches:
+      - "*.x"
+    paths:
+      - composer.*
+      - src/**
+      - phpstan*
+      - psalm*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-analysis:
+    name: Static Analysis
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: '8.2'
+          tools: cs2pr
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+
+      - name: Static Analysis (PHPStan)
+        run: "composer run analyze:phpstan -- --error-format=checkstyle | cs2pr"
+
+      - name: Static Analysis (PHPStan)
+        run: "composer run analyze:psalm -- --shepherd"

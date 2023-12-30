@@ -1,0 +1,62 @@
+name: "Continuous Integration"
+
+on:
+  pull_request:
+    branches:
+      - "*.*"
+    paths:
+      - .github/workflows/continuous-integration.yml
+      - composer.*
+      - lib/**
+      - phpunit.xml.dist
+      - tests/**
+  push:
+    branches:
+      - "*.x"
+    paths:
+      - .github/workflows/continuous-integration.yml
+      - composer.*
+      - lib/**
+      - phpunit.xml.dist
+      - tests/**
+
+env:
+  fail-fast: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        php-versions: [ '8.2', '8.3' ]
+        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}
+      - name: Install dependencies
+        run: composer install --prefer-source --no-interaction --dev
+      - name: Coding Standard
+        run: composer run lint:style
+      - name: Static Code Analysis (PHPStan)
+        run: composer run analyze:phpstan
+      - name: Static Code Analysis (Psalm)
+        run: composer run analyze:psalm
+      - name: Run test suite
+        run: composer run unit:tests
